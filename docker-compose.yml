@@ -1,0 +1,20 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: secret
+      
+  app:
+    build:
+      context: .
+      args:
+        JAR_FILE: ./target/demo-0.0.1-SNAPSHOT.jar
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      # to choose a different application properties file 
+      JAVA_OPTS: -Dspring.profiles.active=PROD
