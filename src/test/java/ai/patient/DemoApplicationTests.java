@@ -1,4 +1,4 @@
-package ai.patient.demo;
+package ai.patient;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

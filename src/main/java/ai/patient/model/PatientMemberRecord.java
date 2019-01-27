@@ -1,6 +1,7 @@
 package ai.patient.model;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 
@@ -13,5 +14,6 @@ public class PatientMemberRecord {
 	private String firstName;
 	private String lastName;
 	private String socialSecurityNumber;
+	@OneToMany
 	private Address address;
 }
