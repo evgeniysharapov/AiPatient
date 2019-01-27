@@ -1,19 +1,25 @@
 package ai.patient.model;
 
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
 @Entity
 @Data
 public class PatientMemberRecord {
-	// XXX: do we need artificial key ?? 
+	// XXX: do we need artificial key ??
+	@Id  
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
 	private String source;
 	private String medicalRecordNumber;
 	private String firstName;
 	private String lastName;
 	private String socialSecurityNumber;
-	@OneToMany
+	@OneToOne
 	private Address address;
 }
