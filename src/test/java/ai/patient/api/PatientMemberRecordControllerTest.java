@@ -103,4 +103,15 @@ public class PatientMemberRecordControllerTest {
 		verify(repo, times(1)).deleteById(1L);
 	}
 
+	@Test
+	public void testSearch() throws Exception {
+		when(repo.findBySourceOrMedicalRecordNumber(Mockito.anyString(),Mockito.isNull())).thenReturn(Arrays.asList(pmr));
+		
+		mvc.perform(get("/api/records/search")
+				.contentType(MediaType.APPLICATION_JSON)
+				.param("source", "source"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$", hasSize(1)))
+		.andExpect(jsonPath("$[0].firstName", is(pmr.getFirstName())))
+		.andExpect(jsonPath("$[0].lastName", is(pmr.getLastName())));	}	
 }
