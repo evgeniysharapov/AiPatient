@@ -28,76 +28,87 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import ai.patient.data.AddressRepository;
-import ai.patient.data.PatientMemberRecordRepository;
 import ai.patient.model.Address;
-import ai.patient.model.PatientMemberRecord;
 
 /**
  * @author evgeniy.sharapov
  *
  */
 @RunWith(SpringRunner.class)
-@WebMvcTest(PatientMemberRecordController.class)
-public class PatientMemberRecordControllerIT {
+@WebMvcTest(AddressController.class)
+public class AddressControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
 	
 	@MockBean
-	PatientMemberRecordRepository repo;
+	AddressRepository repo;
 	
-	private PatientMemberRecord pmr;
+	private Address a;
 	
-	private String jsonPmr;
+	private String jsonAddress;
 	
 	@Before
 	public void setup() throws JsonProcessingException {
-		pmr = new PatientMemberRecord();
-		pmr.setId(1L);
-		pmr.setFirstName("Alice");
-		pmr.setLastName("Bobcat");
-		pmr.setMedicalRecordNumber("q234123");
-		pmr.setSource("source");
-		pmr.setSocialSecurityNumber("123-456-7890");
-		jsonPmr = (new ObjectMapper()).writeValueAsString(pmr);
+		a = new Address();
+		a.setAddressId(1L);
+		a.setAddressLine1("1234 Simple Ln");
+		a.setCity("Cary");
+		a.setState("NC");
+		a.setZipCode("27514");
+		
+		jsonAddress = (new ObjectMapper()).writeValueAsString(a);
 	}
-
+	
+	/**
+	 * Test method for {@link ai.patient.api.AddressController#list()}.
+	 * @throws Exception 
+	 */
 	@Test
 	public void testList() throws Exception {
-		when(repo.findAll()).thenReturn(Arrays.asList(pmr));
-		mvc.perform(get("/api/records/")
+		when(repo.findAll()).thenReturn(Arrays.asList(a));
+		mvc.perform(get("/api/address/")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
 		.andExpect(jsonPath("$", hasSize(1)))
-		.andExpect(jsonPath("$[0].firstName", is(pmr.getFirstName())))
-		.andExpect(jsonPath("$[0].lastName", is(pmr.getLastName())));
+		.andExpect(jsonPath("$[0].addressLine1", is(a.getAddressLine1())));
 	}
 
+	/**
+	 * Test method for {@link ai.patient.api.AddressController#getOne(java.lang.Long)}.
+	 * @throws Exception 
+	 */
 	@Test
 	public void testGetOne() throws Exception {
-		when(repo.findById(1L)).thenReturn(Optional.of(pmr));
-		mvc.perform(get("/api/records/1")
+		when(repo.findById(1L)).thenReturn(Optional.of(a));
+		mvc.perform(get("/api/address/1")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.firstName", is(pmr.getFirstName())))
-		.andExpect(jsonPath("$.lastName", is(pmr.getLastName())));
+		.andExpect(jsonPath("$.addressLine1", is(a.getAddressLine1())));
 	}
 
+	/**
+	 * Test method for {@link ai.patient.api.AddressController#create(ai.patient.model.Address)}.
+	 * @throws Exception 
+	 */
 	@Test
 	public void testCreate() throws Exception {
-		when(repo.save(Mockito.any(PatientMemberRecord.class))).thenAnswer(arg -> arg.getArgument(0));
-		mvc.perform(post("/api/records/")
-				.content(jsonPmr)
+		when(repo.save(Mockito.any(Address.class))).thenAnswer(arg -> arg.getArgument(0));
+		mvc.perform(post("/api/address/")
+				.content(jsonAddress)
 				.contentType(MediaType.APPLICATION_JSON_UTF8))
 		.andExpect(status().isOk())
-		.andExpect(jsonPath("$.firstName", is(pmr.getFirstName())))
-		.andExpect(jsonPath("$.lastName", is(pmr.getLastName())));
+		.andExpect(jsonPath("$.addressLine1", is(a.getAddressLine1())));
 	}
 
+	/**
+	 * Test method for {@link ai.patient.api.AddressController#delete(java.lang.Long)}.
+	 * @throws Exception 
+	 */
 	@Test
 	public void testDelete() throws Exception {
-		when(repo.save(Mockito.any(PatientMemberRecord.class))).thenAnswer(arg -> arg.getArgument(0));
-		mvc.perform(delete("/api/records/1")
+		when(repo.save(Mockito.any(Address.class))).thenAnswer(arg -> arg.getArgument(0));
+		mvc.perform(delete("/api/address/1")
 				.contentType(MediaType.APPLICATION_JSON))
 		.andExpect(status().isOk());
 		verify(repo, times(1)).deleteById(1L);

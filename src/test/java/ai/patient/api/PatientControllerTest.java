@@ -45,7 +45,7 @@ import ai.patient.model.PatientMemberRecord;
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(PatientController.class)
-public class PatientControllerIT {
+public class PatientControllerTest {
 
 	@Autowired
 	private MockMvc mvc;

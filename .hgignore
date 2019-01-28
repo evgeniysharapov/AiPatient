@@ -16,3 +16,4 @@ classes/
 *.log
 *.iml
 .idea
+tmp/

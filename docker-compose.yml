@@ -16,5 +16,6 @@ services:
       - db
     environment:
       DB_HOST: db
-      # to choose a different application properties file 
-      JAVA_OPTS: -Dspring.profiles.active=PROD
+      # to choose a different application properties file
+      # here's the not-so-hackish-hack https://docs.spring.io/spring-boot/docs/current/reference/html/howto-properties-and-configuration.html#howto-set-active-spring-profiles
+      SPRING_PROFILES_ACTIVE: PROD
