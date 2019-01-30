@@ -38,6 +38,7 @@ import ai.patient.data.PatientRepository;
 import ai.patient.model.Address;
 import ai.patient.model.Patient;
 import ai.patient.model.PatientMemberRecord;
+import ai.patient.service.PatientService;
 
 /**
  * @author evgeniy.sharapov
@@ -53,6 +54,9 @@ public class PatientControllerTest {
 	@MockBean
 	PatientRepository repo;
 	
+	@MockBean
+	PatientService service;
+
 	private Patient p;
 	
 	private String jsonPatient;
@@ -102,5 +106,4 @@ public class PatientControllerTest {
 		.andExpect(status().isOk());
 		verify(repo, times(1)).deleteById("12345");
 	}
-
 }

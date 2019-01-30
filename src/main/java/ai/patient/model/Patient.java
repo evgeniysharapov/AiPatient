@@ -1,5 +1,6 @@
 package ai.patient.model;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -10,7 +11,7 @@ import lombok.Data;
 
 @Entity
 @Data
-public class Patient {
+public class Patient implements Serializable {
 	@Id
 	private String enterpriseId; // global identifier
 	@OneToMany
