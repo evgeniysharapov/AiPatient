@@ -3,6 +3,8 @@
  */
 package ai.patient.api;
 
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.times;
@@ -19,6 +21,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -88,6 +91,14 @@ public class PatientControllerTest {
 		.andExpect(jsonPath("$.enterpriseId", is(p.getEnterpriseId())));
 	}
 
+	@Test
+	public void testGetOneNotFound() throws Exception {
+		mvc.perform(get("/api/patients/222")
+				.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNotFound())
+		.andExpect(jsonPath("$.message").value(allOf(containsString("not found") , Matchers.endsWith("/patients/222"))));
+	}
+	
 	@Test
 	public void testCreate() throws Exception {
 		when(repo.save(Mockito.any(Patient.class))).thenAnswer(arg -> arg.getArgument(0));

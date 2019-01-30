@@ -13,6 +13,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import java.util.Arrays;
 import java.util.Optional;
 
+import org.hamcrest.Matchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -82,6 +83,15 @@ public class PatientMemberRecordControllerTest {
 		.andExpect(jsonPath("$.firstName", is(pmr.getFirstName())))
 		.andExpect(jsonPath("$.lastName", is(pmr.getLastName())));
 	}
+	
+	@Test
+	public void testGetOneNotFound() throws Exception {
+		mvc.perform(get("/api/records/2")
+				.contentType(MediaType.APPLICATION_JSON))
+		.andExpect(status().isNotFound())
+		.andExpect(jsonPath("$.message").value(allOf(containsString("not found") , Matchers.endsWith("/records/2"))));
+	}
+	
 
 	@Test
 	public void testCreate() throws Exception {
