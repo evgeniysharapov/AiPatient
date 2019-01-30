@@ -9,7 +9,6 @@ import java.util.Optional;
 
 import javax.persistence.Id;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.util.ReflectionUtils;
@@ -20,8 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-import ai.patient.data.AddressRepository;
-import ai.patient.model.Address;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * E is for entiry type
@@ -30,7 +28,7 @@ import ai.patient.model.Address;
  * @author evgeniy.sharapov
  *
  */
-
+@Slf4j
 public abstract class BaseController<E, I, R extends JpaRepository<E, I> >{
 	
 	@Autowired

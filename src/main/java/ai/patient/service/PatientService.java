@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import ai.patient.data.PatientRepository;
 import ai.patient.model.Patient;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Complex operations related to the {@link Patient}. 
@@ -25,6 +26,7 @@ import ai.patient.model.Patient;
  *
  */
 @Service
+@Slf4j
 public class PatientService {
 	@Autowired
 	private PatientRepository patientRepo;
