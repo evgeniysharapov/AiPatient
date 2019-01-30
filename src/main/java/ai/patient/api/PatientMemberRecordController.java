@@ -27,33 +27,8 @@ import ai.patient.model.PatientMemberRecord;
  */
 @RestController
 @RequestMapping(path="/api/records")
-public class PatientMemberRecordController {
-	
-	@Autowired
-	private PatientMemberRecordRepository repo; 
-	
-	@GetMapping(path = "/")
-	public Collection<PatientMemberRecord> list (){
-		return repo.findAll();
-	}
+public class PatientMemberRecordController extends BaseController<PatientMemberRecord, Long, PatientMemberRecordRepository>{
 
-	// TODO: use 404 page via controller advice 
-	@GetMapping(path = "/{id}")
-	public Optional<PatientMemberRecord> getOne (@PathVariable("id") Long id) {
-		return repo.findById(id);
-	}
-	
-	@PostMapping(path = "/")
-	public PatientMemberRecord create( @RequestBody PatientMemberRecord a) {
-		return repo.save(a);
-	}
-	
-	// TODO: Should we return deleted entity ? 
-	@DeleteMapping(path = "/{id}")
-	public void delete(@PathVariable("id") Long id) {
-		repo.deleteById(id);
-	}
-	
 	/**
 	 * Search by <code>source</code> or <code>medicalRecordNumber</code> 
 	 * @return {@link Collection} of matching {@link PatientMemberRecord}

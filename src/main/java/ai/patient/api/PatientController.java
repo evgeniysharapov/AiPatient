@@ -30,34 +30,11 @@ import ai.patient.service.PatientService;
  */
 @RestController
 @RequestMapping("/api/patients")
-public class PatientController {
+public class PatientController extends BaseController<Patient, String, PatientRepository>{
 	
 	@Autowired
-	private PatientRepository repo;
+	private PatientService service; 
 	
-	@Autowired
-	private PatientService service;
-
-	@GetMapping(path = "/")
-	public Collection<Patient> list() {
-		return repo.findAll();
-	}
-	
-	@GetMapping(path = "/{id}")
-	public Optional<Patient> getOne(@PathVariable("id") String id){
-		return repo.findById(id);
-	}
-	
-	@PostMapping(path = "/")
-	public Patient create(@RequestBody Patient patient) {
-		return repo.save(patient);
-	}
-	
-	@DeleteMapping(path = "/{id}")
-	public void delete(@PathVariable("id") String id) {
-		repo.deleteById(id);
-	}
-
 	/**
 	 * This is the same search as {@link PatientMemberRecordController#search(String, String)} but from the {@link Patient} perspective.
 	 * Given a <code>source</code> and/or <code>medicalRecordNumber</code> returns a collection of {@link Patient} 
